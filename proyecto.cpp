@@ -15,7 +15,7 @@ class Conversiones {
 		decimalMaya();
 		decimalBinario();					//
 		decimalOctal();						//	
-		decimalHexadecimal();				//Métodos de la clase conversiones
+		decimalHexadecimal();				//MÃ©todos de la clase conversiones
 		binarioDecimal();					//
 		binarioOctal();						//
 		binarioHexadecimal();
@@ -24,7 +24,7 @@ Conversiones::Conversiones(int _numero){//Constructor
 	numero = _numero;
 }
 
-//Métodos de la clase conversiones
+//MÃ©todos de la clase conversiones
 
 Conversiones::decimalMaya(){
 	//proceso para convertir a maya
@@ -38,12 +38,41 @@ Conversiones::decimalBinario(){
 
 Conversiones::decimalOctal(){
 	//proceso para convertir a octal
-	cout<<"decimal a octal "<<numero;
+	int cociente, residuo, base8[15];
+	int i = 0, numOriginal = numero;
+	do{
+		cociente = numero / 8;
+		residuo = numero % 8;
+		base8[i] = residuo;
+		numero = cociente;
+		i++;
+	}while(cociente > 8);
+	base8[i] = cociente;
+	cout<<"El nÃºmero "<<numOriginal<<" en octal es: \n";
+	for(int j = i; j >= 0; j--){
+		cout<<base8[j];
+	}
 }
 
 Conversiones::decimalHexadecimal(){
 	//proceso para convertir a hexadecimal
-	cout<<"decimal a hexadecimal "<<numero;
+	int cociente, residuo;
+	string valoresHexa[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
+	string base16[15];
+	int i = 0, numOriginal = numero;
+	do{
+		cociente = numero / 16;
+		residuo = numero % 16;
+		base16[i] = valoresHexa[residuo];
+		numero = cociente;
+		i++;
+	}while(cociente > 16);
+	base16[i] = valoresHexa[cociente];
+	cout<<"El nÃºmero "<<numOriginal<<" en hexadecimal es: \n";
+	for(int j = i; j >= 0; j--){
+		cout<<base16[j];
+	}
+	//falta validar decimales
 }
 
 Conversiones::binarioDecimal(){
@@ -70,7 +99,7 @@ class Combinatoria{
 		Combinatoria(int, int);//Se inicializa el constructor
 		permutacionOrdinaria();				//
 		permutacionDosAspectos();			//
-		palomar();							//Métodos de la clase combinatoria
+		palomar();							//MÃ©todos de la clase combinatoria
 		combinacion();						//
 };
 
@@ -79,15 +108,15 @@ Combinatoria::Combinatoria(int _n, int _r){//Constructor
 	r = _r;
 }
 
-//Métodos de la clase combinatoria
+//MÃ©todos de la clase combinatoria
 
 Combinatoria::permutacionOrdinaria(){
-	//proceso para obtener la permutación ordinaria 
+	//proceso para obtener la permutaciÃ³n ordinaria 
 	cout<<"permutacionordinaria n: "<<n<<"r: "<<r;
 }
 
 Combinatoria::permutacionDosAspectos(){
-	//proceso para obtener la permutación con dos aspectos
+	//proceso para obtener la permutaciÃ³n con dos aspectos
 	cout<<"permutaciondosaspectos n: "<<n<<"r: "<<r;
 }
 
@@ -97,11 +126,11 @@ Combinatoria::palomar(){
 }
 
 Combinatoria::combinacion(){
-	//proceso para obtener la combinación
+	//proceso para obtener la combinaciÃ³n
 	cout<<"combinacion n: "<<n<<"r: "<<r;
 }
 
-//Funciones para imprimir los menús
+//Funciones para imprimir los menÃºs
 
 //Pantalla de inicio
 menu1(){
@@ -115,7 +144,7 @@ menu1(){
  	
 }
 
-//Menú de conversiones
+//MenÃº de conversiones
 conversionesMenu(){
     cout<<"\n\t\t _____                                               _\n";                              
     cout<<"\t\t/ ____|                                             (_)\n";                             
@@ -124,18 +153,18 @@ conversionesMenu(){
     cout<<"\t\t| |____  | (_) | | | | |  \\ V /  |  __/ | |    \\__ \\ | | | (_) | | | | | |  __/ \\__ \\\n";
     cout<<"\t\t\\_____|   \\___/  |_| |_|   \\_/    \\___| |_|    |___/ |_|  \\___/  |_| |_|  \\___| |___/\n";
     
-	cout<<"\n\n\tMENÚ: \n";                                                                                                                                                            
-	cout<<"\n\t(1) Conversión de decimal a maya\n";
-	cout<<"\n\t(2) Conversión de decimal a binario\n";
-	cout<<"\n\t(3) Conversión de decimal a octal\n";
-	cout<<"\n\t(4) Conversión de decimal a hexadecimal\n";
-	cout<<"\n\t(5) Conversión de binario a decimal\n";
-	cout<<"\n\t(6) Conversión de binario a octal\n";
-	cout<<"\n\t(7) Conversión de binario a hexadecimal\n";
+	cout<<"\n\n\tMENÃš: \n";                                                                                                                                                            
+	cout<<"\n\t(1) ConversiÃ³n de decimal a maya\n";
+	cout<<"\n\t(2) ConversiÃ³n de decimal a binario\n";
+	cout<<"\n\t(3) ConversiÃ³n de decimal a octal\n";
+	cout<<"\n\t(4) ConversiÃ³n de decimal a hexadecimal\n";
+	cout<<"\n\t(5) ConversiÃ³n de binario a decimal\n";
+	cout<<"\n\t(6) ConversiÃ³n de binario a octal\n";
+	cout<<"\n\t(7) ConversiÃ³n de binario a hexadecimal\n";
 	cout<<"\n\n\t(8) Regresar\n";
 }
 
-//Menú de combinatoria
+//MenÃº de combinatoria
 combinatoriaMenu(){
 	cout<<"\n\t\t  _____                       _       _                   _                    _\n";        
   	cout<<"\t\t / ____|                     | |     (_)                 | |                  (_)\n";        
@@ -144,7 +173,7 @@ combinatoriaMenu(){
  	cout<<"\t\t| |____  | (_) | | | | | | | | |_) | | | | | | | | (_| | | |_  | (_) | | |    | | | (_| |\n";
   	cout<<"\t\t \\_____|  \\___/  |_| |_| |_| |_.__/  |_| |_| |_|  \\__,_|  \\__|  \\___/  |_|    |_|  \\__,_|\n";
                                                                                           
-    cout<<"\n\n\tMENÚ: \n";                                                                        
+    cout<<"\n\n\tMENÃš: \n";                                                                        
 	cout<<"\n\t(1) Permutaciones ordinarias\n";
 	cout<<"\n\t(2) Permutaciones con dos aspectos\n";
 	cout<<"\n\t(3) Principio del palomar\n";
@@ -265,7 +294,7 @@ opcionesConversion(int op){
 		case 3:{
 			system("cls");
 			titulos(3);
-			cout<<"Ingresa un numero ";
+			cout<<"\n\n\tIngresa el nÃºmero a convertir a octal: ";
 			cin>>numero;
 			Conversiones opcion(numero);			
 			opcion.decimalOctal();
@@ -276,7 +305,7 @@ opcionesConversion(int op){
 		case 4:{
 			system("cls");
 			titulos(4);
-			cout<<"Ingresa un numero ";
+			cout<<"\n\n\tIngresa el nÃºmero a convertir a hexadecimal: ";
 			cin>>numero;
 			Conversiones opcion(numero);			
 			opcion.decimalHexadecimal();
@@ -321,7 +350,7 @@ opcionesConversion(int op){
 			menu1();
 		break;
 		default:
-			cout<<"\n\tOpción no válida ";
+			cout<<"\n\tOpciÃ³n no vÃ¡lida ";
 			system("pause");
 			system("cls");
 		break;
@@ -387,13 +416,13 @@ opcionesCombinatoria(int op){
 			menu1();
 		break;
 		default:
-			cout<<"\n\tOpción no válida ";
+			cout<<"\n\tOpciÃ³n no vÃ¡lida ";
 			system("pause");
 			system("cls");
 	}
 }
 
-//Función principal
+//FunciÃ³n principal
 main(){
 	system("color 70");
 	setlocale(LC_ALL, "");
@@ -401,14 +430,14 @@ main(){
 	do{
 		system("cls");
 		menu1();
-		cout<<"\n\tIngrese una opción: ";
+		cout<<"\n\tIngrese una opciÃ³n: ";
  		cin>>op;
  		switch(op){
  			case 1:
  				do{
  					system("cls");
  					conversionesMenu();
- 					cout<<"\n\tIngrese una opción: ";
+ 					cout<<"\n\tIngrese una opciÃ³n: ";
  					cin>>op;
  					opcionesConversion(op);
 				 }while(op != 8);
@@ -417,7 +446,7 @@ main(){
  				do{
  					system("cls");
  					combinatoriaMenu();
- 					cout<<"\n\tIngrese una opción: ";
+ 					cout<<"\n\tIngrese una opciÃ³n: ";
  					cin>>op;
  					opcionesCombinatoria(op);
 				 }while(op != 5);
@@ -427,7 +456,7 @@ main(){
 				system("exit");
 			break;
 			default:
-				cout<<"\n\tOpción no válida ";
+				cout<<"\n\tOpciÃ³n no vÃ¡lida ";
 				system("pause");
 				system("cls");
 			break;
