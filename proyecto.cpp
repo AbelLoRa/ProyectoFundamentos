@@ -33,7 +33,25 @@ Conversiones::decimalMaya(){
 
 Conversiones::decimalBinario(){
 	//proceso para convertir a binario
-	cout<<"decimal a binario "<<numero;
+    int numero;
+    cout << "Ingresa un número decimal: ";
+    cin >> numero;
+
+    int cociente, residuo, base2[100];
+    int i = 0, numOriginal = numero;
+
+    do {
+        cociente = numero / 2;
+        residuo = numero % 2;
+        base2[i] = residuo;
+        numero = cociente;
+        i++;
+    } while (cociente > 0);
+
+    cout << "El número " << numOriginal << " en binario es: \n";
+    for (int j = i - 1; j >= 0; j--) {
+        cout << base2[j];
+    }
 }
 
 Conversiones::decimalOctal(){
