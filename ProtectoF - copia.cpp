@@ -509,6 +509,7 @@ opcionesCombinatoria(int op){
 
 //Función principal
 main(){
+	system("mode con: cols=150 lines=30"); //Se define el tamaño de la consola 
 	system("color 70");
 	setlocale(LC_ALL, "");
 	int op;
