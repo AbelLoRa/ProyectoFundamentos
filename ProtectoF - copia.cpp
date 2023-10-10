@@ -191,7 +191,26 @@ unsigned long long calcularCombinaciones(int numero, int numero1) {
     }
 }
 
-//FUNCION PARA CALCULAR EL NUMERO DE PERMUTACIONES
+//PERMUTACION ORDINARIA
+
+//FUNCION IMORIMIR NUMEROS ASI 5x4x3x2x1
+void imprimirFactorialConMultiplicacion(int num) {
+    if (num < 0) {
+        cout << "Factorial no definido para números negativos." << std::endl;
+        return;
+    }
+
+    cout << "\n\n\t"<< num << "! = ";
+    for (int i = num; i > 0; --i) {
+        cout << i;
+        if (i > 1) {
+            cout << " x ";
+        }
+    }
+    cout << " = " << factorial(num) << endl;
+}
+
+//FUNCION PARA CALCULAR EL NUMERO DE PERMUTACIONES DOS ASPECTOS
 unsigned long long calcularPermutaciones(int numero, int numero1) {
     if (numero1 < 0 || numero1 > numero) {
 		return 0;  // Combinación no válida
@@ -202,17 +221,17 @@ unsigned long long calcularPermutaciones(int numero, int numero1) {
 
 long Combinatoria::permutacionOrdinaria(){
 	//proceso para obtener la permutación ordinaria 
+	imprimirFactorialConMultiplicacion(n);
+}
+
+long Combinatoria::permutacionDosAspectos(){
+	//proceso para obtener la permutación con dos aspectos
 	if(calcularPermutaciones(n, r) == 0){
 		cout << "\n\n\tERROR, VALORES NO VÁLIDOS n debe ser mayor a r. Vuelve a intentarlo";
 	}else{
 		cout<<"\n\n\t"<<n<<"C"<<r<<" = "<<n<<"!/"<<"("<<n<<" - "<<r<<")!\n";
 		cout << "\n\n\tLas permutaciones posibles son de: "<< calcularPermutaciones(n, r);
 	}
-}
-
-long Combinatoria::permutacionDosAspectos(){
-	//proceso para obtener la permutación con dos aspectos
-	cout<<"permutaciondosaspectos n: "<<n<<"r: "<<r;
 }
 
 int Combinatoria::palomar(){
@@ -506,8 +525,8 @@ int opcionesCombinatoria(int op){
 			titulos(8);
 			cout<<"\n\n\tIngresa un numero (n).";
 			cin>>numero;
-			cout<<"\n\n\tIngresa otro numero (r).";
-			cin>>numero1;
+			//cout<<"\n\n\tIngresa otro numero (r).";
+			//cin>>numero1;
 			Combinatoria opcion(numero, numero1);			
 			opcion.permutacionOrdinaria();
 			cout<<endl;
@@ -517,9 +536,9 @@ int opcionesCombinatoria(int op){
 		case 2:{
 			system("cls");
 			titulos(9);
-			cout<<"Ingresa un numero ";
+			cout<<"\n\n\tIngresa otro numero (n).";
 			cin>>numero;
-			cout<<"Ingresa otro numero";
+			cout<<"\n\n\tIngresa otro numero (r).";
 			cin>>numero1;
 			Combinatoria opcion(numero, numero1);			
 			opcion.permutacionDosAspectos();
