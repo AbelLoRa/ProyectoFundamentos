@@ -1,6 +1,7 @@
 #include <iostream>
 #include <locale.h>
 #include <windows.h>
+#include <string.h>
 using namespace std;
 
 #define color SetConsoleTextAtribute
@@ -15,7 +16,7 @@ class Conversiones {
 		decimalMaya();
 		decimalBinario();					//
 		decimalOctal();						//	
-		decimalHexadecimal();				//M?todos de la clase conversiones
+		decimalHexadecimal();				//Métodos de la clase conversiones
 		binarioDecimal();					//
 		binarioOctal();						//
 		binarioHexadecimal();
@@ -24,75 +25,96 @@ Conversiones::Conversiones(int _numero){//Constructor
 	numero = _numero;
 }
 
-//M?todos de la clase conversiones
+//Métodos de la clase conversiones
 
 Conversiones::decimalMaya(){
 	//proceso para convertir a maya
-	cout<<"decimal a maya "<<numero;
+	int cociente, residuo, vectorMaya[50], i = 0;
+	int numOriginal = numero;
+	do{
+		cociente = numero / 20;
+		residuo = numero % 20;
+		vectorMaya[i] = residuo;
+		numero = cociente;
+		i++;
+	}while(cociente >= 20);
+	vectorMaya[i] = cociente;
+	cout<<"\n\n\t\tEl número "<<numOriginal<<" en maya es: \n\n";
+	for(int j = i; j >= 0; j--){
+		if(vectorMaya[j] >= 5){
+			cociente = vectorMaya[j] / 5;
+			residuo = vectorMaya[j] % 5;
+			cout<<"\t\t"<<vectorMaya[j]<<endl;
+			cout<<"\t\t";
+			for(int a = 1; a <= residuo; a++){
+				cout<<".";
+			}
+			cout<<endl;
+			for(int a = 1; a <= cociente; a++){
+				cout<<"\t\t____\n";
+			}
+		}else if(vectorMaya[j] == 0){
+			cout<<"\t\t0\n(0)\n";
+		}else{
+			cout<<"\t\t"<<vectorMaya[j]<<endl;
+			cout<<"\t\t";
+			for(int a = 1; a <= vectorMaya[j]; a++){
+				cout<<".";
+			}
+			cout<<endl;
+		}
+		cout<<endl;
+	}
+}
+
+//función para convertir de decimal a hexadecimal y a octal 
+funcionConvertir(int base, int numero){
+	int cociente, residuo;
+	int i = 0, numOriginal = numero;
+	string valores[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"}, resultado[30];
+	do{
+		cociente = numero / base;
+		residuo = numero % base;
+		resultado[i] = valores[residuo];
+		numero = cociente;
+		i++;
+	}while(cociente > base);
+	
+	resultado[i] = valores[cociente];
+	
+	if(base == 8){
+		cout<<"El número "<<numOriginal<<" en octal es: \n";
+	}else if(base == 16){
+		cout<<"El número "<<numOriginal<<" en hexadecimal es: \n";
+	}else if(base == 2){
+		cout<<"El número "<<numOriginal<<" en binario es: \n";
+	}
+	
+	for(int j = i; j >= 0; j--){
+		cout<<resultado[j];
+	}
 }
 
 Conversiones::decimalBinario(){
 	//proceso para convertir a binario
-
-    int cociente, residuo, base2[100];
-    int i = 0, numOriginal = numero;
-
-    do {
-        cociente = numero / 2;
-        residuo = numero % 2;
-        base2[i] = residuo;
-        numero = cociente;
-        i++;
-    } while (cociente > 0);
-
-    cout << "\n\n\tEl n?mero " << numOriginal << "en binario es: ";
-    cout <<"\n\n\t";
-    for (int j = i - 1; j >= 0; j--) {
-        cout << base2[j];
-    }
+	funcionConvertir(2, numero);
 }
 
 Conversiones::decimalOctal(){
 	//proceso para convertir a octal
-	int cociente, residuo, base8[15];
-	int i = 0, numOriginal = numero;
-	do{
-		cociente = numero / 8;
-		residuo = numero % 8;
-		base8[i] = residuo;
-		numero = cociente;
-		i++;
-	}while(cociente > 8);
-	base8[i] = cociente;
-	cout<<"El n?mero "<<numOriginal<<" en octal es: \n";
-	for(int j = i; j >= 0; j--){
-		cout<<base8[j];
-	}
+	funcionConvertir(8, numero);
+	//falta validar decimales
 }
 
 Conversiones::decimalHexadecimal(){
 	//proceso para convertir a hexadecimal
-	int cociente, residuo;
-	string valoresHexa[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
-	string base16[15];
-	int i = 0, numOriginal = numero;
-	do{
-		cociente = numero / 16;
-		residuo = numero % 16;
-		base16[i] = valoresHexa[residuo];
-		numero = cociente;
-		i++;
-	}while(cociente > 16);
-	base16[i] = valoresHexa[cociente];
-	cout<<"El n?mero "<<numOriginal<<" en hexadecimal es: \n";
-	for(int j = i; j >= 0; j--){
-		cout<<base16[j];
-	}
+	funcionConvertir(16, numero);
 	//falta validar decimales
 }
 
 Conversiones::binarioDecimal(){
 	//proceso para convertir binario a decimal
+	
 	cout<<"binario a decimal "<<numero;
 }
 
@@ -115,7 +137,7 @@ class Combinatoria{
 		Combinatoria(int, int);//Se inicializa el constructor
 		permutacionOrdinaria();				//
 		permutacionDosAspectos();			//
-		palomar();							//M?todos de la clase combinatoria
+		palomar();							//Métodos de la clase combinatoria
 		combinacion();						//
 };
 
@@ -124,15 +146,21 @@ Combinatoria::Combinatoria(int _n, int _r){//Constructor
 	r = _r;
 }
 
-//M?todos de la clase combinatoria
-
+//Métodos de la clase combinatoria
+//función para obtener el factorial
+unsigned long factorial(int n){
+	if(n < 1){
+		return 1;
+	}
+	return n * factorial(n - 1);
+}
 Combinatoria::permutacionOrdinaria(){
-	//proceso para obtener la permutaci?n ordinaria 
+	//proceso para obtener la permutación ordinaria 
 	cout<<"permutacionordinaria n: "<<n<<"r: "<<r;
 }
 
 Combinatoria::permutacionDosAspectos(){
-	//proceso para obtener la permutaci?n con dos aspectos
+	//proceso para obtener la permutación con dos aspectos
 	cout<<"permutaciondosaspectos n: "<<n<<"r: "<<r;
 }
 
@@ -142,11 +170,39 @@ Combinatoria::palomar(){
 }
 
 Combinatoria::combinacion(){
-	//proceso para obtener la combinaci?n
-	cout<<"combinacion n: "<<n<<"r: "<<r;
+	//proceso para obtener la combinación
+	unsigned long combinacion = factorial(n) / (factorial(r) * factorial(n - r));
+	cout<<n<<"C"<<r<<" = "<<n<<"!/("<<r<<"!("<<n<<" - "<<r<<")!)\n";
+	cout<<n<<"C"<<r<<" = "<<combinacion;
 }
 
-//Funciones para imprimir los men?s
+//Clase para hacer el triángulo de Pascal
+
+class TrianguloPascal{
+	private:
+		int cant;
+	public:
+		TrianguloPascal(int);
+		hacerTriangulo();
+};
+TrianguloPascal::TrianguloPascal(int _cant){
+	cant = _cant;
+}
+TrianguloPascal::hacerTriangulo(){
+	unsigned long c;
+	for(int i = 0; i <= cant; i++){
+		for(int j = cant - i; j >= 0; j--){
+			cout<<" ";
+		}
+		for(int j = 0; j <= i; j++){
+			c = factorial(i)/(factorial(j)*factorial(i - j));
+			cout<<c<<" ";
+		}
+		cout<<endl;
+	}
+}
+
+//Funciones para imprimir los menús
 
 //Pantalla de inicio
 menu1(){
@@ -156,11 +212,12 @@ menu1(){
  	cout<<"\t\t|____/  |___| |_____| |_| \\_|    \\_/    |_____| |_| \\_| |___| |____/   \\___/ \n";
  	cout<<"\n\n\n\t(1) Conversiones\n";
  	cout<<"\t(2) Combinatoria\n";
- 	cout<<"\t(3) Salir\n";
+ 	cout<<"\t(3) Triángulo de Pascal\n";
+ 	cout<<"\t(4) Salir\n";
  	
 }
 
-//Men? de conversiones
+//Menú de conversiones
 conversionesMenu(){
     cout<<"\n\t\t _____                                               _\n";                              
     cout<<"\t\t/ ____|                                             (_)\n";                             
@@ -169,18 +226,18 @@ conversionesMenu(){
     cout<<"\t\t| |____  | (_) | | | | |  \\ V /  |  __/ | |    \\__ \\ | | | (_) | | | | | |  __/ \\__ \\\n";
     cout<<"\t\t\\_____|   \\___/  |_| |_|   \\_/    \\___| |_|    |___/ |_|  \\___/  |_| |_|  \\___| |___/\n";
     
-	cout<<"\n\n\tMEN?: \n";                                                                                                                                                            
-	cout<<"\n\t(1) Conversion de decimal a maya\n";
-	cout<<"\n\t(2) Conversion de decimal a binario\n";
-	cout<<"\n\t(3) Conversion de decimal a octal\n";
-	cout<<"\n\t(4) Conversion de decimal a hexadecimal\n";
-	cout<<"\n\t(5) Conversion de binario a decimal\n";
-	cout<<"\n\t(6) Conversion de binario a octal\n";
-	cout<<"\n\t(7) Conversion de binario a hexadecimal\n";
+	cout<<"\n\n\tMENÚ: \n";                                                                                                                                                            
+	cout<<"\n\t(1) Conversión de decimal a maya\n";
+	cout<<"\n\t(2) Conversión de decimal a binario\n";
+	cout<<"\n\t(3) Conversión de decimal a octal\n";
+	cout<<"\n\t(4) Conversión de decimal a hexadecimal\n";
+	cout<<"\n\t(5) Conversión de binario a decimal\n";
+	cout<<"\n\t(6) Conversión de binario a octal\n";
+	cout<<"\n\t(7) Conversión de binario a hexadecimal\n";
 	cout<<"\n\n\t(8) Regresar\n";
 }
 
-//Men? de combinatoria
+//Menú de combinatoria
 combinatoriaMenu(){
 	cout<<"\n\t\t  _____                       _       _                   _                    _\n";        
   	cout<<"\t\t / ____|                     | |     (_)                 | |                  (_)\n";        
@@ -189,7 +246,7 @@ combinatoriaMenu(){
  	cout<<"\t\t| |____  | (_) | | | | | | | | |_) | | | | | | | | (_| | | |_  | (_) | | |    | | | (_| |\n";
   	cout<<"\t\t \\_____|  \\___/  |_| |_| |_| |_.__/  |_| |_| |_|  \\__,_|  \\__|  \\___/  |_|    |_|  \\__,_|\n";
                                                                                           
-    cout<<"\n\n\tMENU: \n";                                                                        
+    cout<<"\n\n\tMENÚ: \n";                                                                        
 	cout<<"\n\t(1) Permutaciones ordinarias\n";
 	cout<<"\n\t(2) Permutaciones con dos aspectos\n";
 	cout<<"\n\t(3) Principio del palomar\n";
@@ -277,6 +334,18 @@ titulos(int figura){
 			cout<<"\t\t| (__  / _ \\ | '  \\  | '_ \\ | | | ' \\  / _` | / _| | | / _ \\ | ' \\\n";
 			cout<<"\t\t \\___| \\___/ |_|_|_| |_.__/ |_| |_||_| \\__,_| \\__| |_| \\___/ |_||_|\n";
 		break;
+		case 12:
+			cout<<"\n\t\t _____         _                               _\n";       
+ 			cout<<"\t\t|_   _|  _ _  (_)  __ _   _ _    __ _   _  _  | |  ___\n"; 
+            cout<<"\t\t  | |   | '_| | | / _` | | ' \\  / _` | | || | | | / _ \\\n";
+   			cout<<"\t\t  |_|   |_|   |_| \\__,_| |_||_| \\__, |  \\_,_| |_| \\___/\n";
+            cout<<"\t\t                   		 |___/\n\n";
+			cout<<"\t\t    _                                          _\n"; 
+  			cout<<"\t\t __| |  ___     _ __   __ _   ___  __   __ _  | |\n";
+ 			cout<<"\t\t/ _` | / -_)   | '_ \\ / _` | (_-< / _| / _` | | |\n";
+ 			cout<<"\t\t\\__,_| \\___|   | .__/ \\__,_| /__/ \\__| \\__,_| |_|\n";
+            cout<<"\t\t               |_|\t";                                                
+		break;
 	}
 }
 //Funciones para seleccionar opciones
@@ -288,7 +357,7 @@ opcionesConversion(int op){
 		case 1:{
 			system("cls");
 			titulos(1);
-			cout<<"Ingresa un numero ";
+			cout<<"\n\n\tIngresa el número para convertir a Maya: ";
 			cin>>numero;
 			Conversiones opcion(numero);			
 			opcion.decimalMaya();
@@ -299,7 +368,7 @@ opcionesConversion(int op){
 		case 2:{
 			system("cls");
 			titulos(2);
-			cout<<"\n\n\tIngresa el numero a convertir a binario: ";
+			cout<<"Ingresa un numero ";
 			cin>>numero;
 			Conversiones opcion(numero);			
 			opcion.decimalBinario();
@@ -310,7 +379,7 @@ opcionesConversion(int op){
 		case 3:{
 			system("cls");
 			titulos(3);
-			cout<<"\n\n\tIngresa el numero a convertir a octal: ";
+			cout<<"\n\n\tIngresa el número para convertir a ocatal: ";
 			cin>>numero;
 			Conversiones opcion(numero);			
 			opcion.decimalOctal();
@@ -321,7 +390,7 @@ opcionesConversion(int op){
 		case 4:{
 			system("cls");
 			titulos(4);
-			cout<<"\n\n\tIngresa el numero a convertir a hexadecimal: ";
+			cout<<"\n\n\tIngresa el número para convertir a hexadecimal: ";
 			cin>>numero;
 			Conversiones opcion(numero);			
 			opcion.decimalHexadecimal();
@@ -366,7 +435,7 @@ opcionesConversion(int op){
 			menu1();
 		break;
 		default:
-			cout<<"\n\tOpcion no valida ";
+			cout<<"\n\tOpción no válida ";
 			system("pause");
 			system("cls");
 		break;
@@ -432,13 +501,13 @@ opcionesCombinatoria(int op){
 			menu1();
 		break;
 		default:
-			cout<<"\n\tOpci?n no v?lida ";
+			cout<<"\n\tOpción no válida ";
 			system("pause");
 			system("cls");
 	}
 }
 
-//Funci?n principal
+//Función principal
 main(){
 	system("color 70");
 	setlocale(LC_ALL, "");
@@ -446,14 +515,14 @@ main(){
 	do{
 		system("cls");
 		menu1();
-		cout<<"\n\tIngrese una opci?n: ";
+		cout<<"\n\tIngrese una opción: ";
  		cin>>op;
  		switch(op){
  			case 1:
  				do{
  					system("cls");
  					conversionesMenu();
- 					cout<<"\n\tIngrese una opci?n: ";
+ 					cout<<"\n\tIngrese una opción: ";
  					cin>>op;
  					opcionesConversion(op);
 				 }while(op != 8);
@@ -462,21 +531,32 @@ main(){
  				do{
  					system("cls");
  					combinatoriaMenu();
- 					cout<<"\n\tIngrese una opci?n: ";
+ 					cout<<"\n\tIngrese una opción: ";
  					cin>>op;
  					opcionesCombinatoria(op);
 				 }while(op != 5);
  			break;
- 			case 3:
+ 			case 3:{
+ 				system("cls");
+ 				int tam;
+ 				titulos(12);
+ 				cout<<"\nIngresa el tamaño del triángulo: ";
+				cin>>tam;
+				TrianguloPascal hacer(tam);
+				hacer.hacerTriangulo();
+				system("pause");
+			break;
+			}
+ 			case 4:
  				cout<<"\n\tFin del programa";
 				system("exit");
 			break;
 			default:
-				cout<<"\n\tOpci?n no v?lida ";
+				cout<<"\n\tOpción no válida ";
 				system("pause");
 				system("cls");
 			break;
 	 	}
-	}while(op != 3);	
+	}while(op != 4);	
 }
 
