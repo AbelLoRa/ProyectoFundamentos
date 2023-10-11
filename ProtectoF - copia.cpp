@@ -115,11 +115,22 @@ int Conversiones::decimalHexadecimal(){
 	funcionConvertir(16, numero);
 	//falta validar decimales
 }
-
+//función para separar digitos
+separarDigitos(int num){
+	int i = 0, numO = num, suma = 0, cifras[20];
+	while(num > 0){
+		cifras[i] = num % 10;
+		num /= 10;
+		i++; 
+	}
+	for(int j = 0; j < i; j++){
+		suma += pow(2, j) * cifras[j];
+	}
+	cout<<"El número "<<numO<<" en decimal es: "<<suma;
+}
 int Conversiones::binarioDecimal(){
 	//proceso para convertir binario a decimal
-	
-	cout<<"binario a decimal "<<numero;
+	separarDigitos(numero);
 }
 
 int Conversiones::binarioOctal(){
