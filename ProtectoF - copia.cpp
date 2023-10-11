@@ -78,7 +78,7 @@ int funcionConvertir(int base, int numero){
 		resultado[i] = valores[residuo];
 		numero = cociente;
 		i++;
-	}while(cociente > base);
+	}while(cociente >= base);
 	
 	resultado[i] = valores[cociente];
 	
