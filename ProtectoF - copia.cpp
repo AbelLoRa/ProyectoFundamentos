@@ -2,6 +2,7 @@
 #include <locale.h>
 #include <windows.h>
 #include <string.h>
+#include <math.h>
 using namespace std;
 
 #define color SetConsoleTextAtribute
@@ -13,13 +14,13 @@ class Conversiones {
 		int numero;
 	public:
 		Conversiones(int);//Se inicializa el constructor
-		int decimalMaya();
-		int decimalBinario();					//
-		int decimalOctal();						//	
-		int decimalHexadecimal();				//Métodos de la clase conversiones
-		int binarioDecimal();					//
-		int binarioOctal();						//
-		int binarioHexadecimal();
+		decimalMaya();
+		decimalBinario();					//
+		decimalOctal();						//	
+		decimalHexadecimal();				//Métodos de la clase conversiones
+		binarioDecimal();					//
+		binarioOctal();						//
+		binarioHexadecimal();
 };
 Conversiones::Conversiones(int _numero){//Constructor
 	numero = _numero;
@@ -27,7 +28,7 @@ Conversiones::Conversiones(int _numero){//Constructor
 
 //Métodos de la clase conversiones
 
-int Conversiones::decimalMaya(){
+Conversiones::decimalMaya(){
 	//proceso para convertir a maya
 	int cociente, residuo, vectorMaya[50], i = 0;
 	int numOriginal = numero;
@@ -68,7 +69,7 @@ int Conversiones::decimalMaya(){
 }
 
 //función para convertir de decimal a hexadecimal y a octal 
-int funcionConvertir(int base, int numero){
+funcionConvertir(int base, int numero){
 	int cociente, residuo;
 	int i = 0, numOriginal = numero;
 	string valores[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"}, resultado[30];
@@ -81,66 +82,73 @@ int funcionConvertir(int base, int numero){
 	}while(cociente >= base);
 	
 	resultado[i] = valores[cociente];
-	
-	if(base == 8){
-		cout<<"El número "<<numOriginal<<" en octal es: \n";
-	}else if(base == 16){
-		cout<<"El número "<<numOriginal<<" en hexadecimal es: \n";
-	}else if(base == 2){
-		cout<<"El número "<<numOriginal<<" en binario es: \n";
-	}
-	
+		
 	for(int j = i; j >= 0; j--){
 		cout<<resultado[j];
 	}
 }
 
-	
-
-	
-
-int Conversiones::decimalBinario(){
+Conversiones::decimalBinario(){
 	//proceso para convertir a binario
+	cout<<"El número "<<numero<<" en octal es: \n";
 	funcionConvertir(2, numero);
 }
 
-int Conversiones::decimalOctal(){
+Conversiones::decimalOctal(){
 	//proceso para convertir a octal
+	cout<<"El número "<<numero<<" en hexadecimal es: \n";
 	funcionConvertir(8, numero);
 	//falta validar decimales
 }
 
-int Conversiones::decimalHexadecimal(){
+Conversiones::decimalHexadecimal(){
 	//proceso para convertir a hexadecimal
+	cout<<"El número "<<numero<<" en binario es: \n";
 	funcionConvertir(16, numero);
 	//falta validar decimales
 }
-//función para separar digitos
-separarDigitos(int num){
-	int i = 0, numO = num, suma = 0, cifras[20];
-	while(num > 0){
-		cifras[i] = num % 10;
-		num /= 10;
+
+cifras(int numero, int base){
+	int i = 0, numO = numero, suma = 0, cifras[30], verif = 1;
+	while(numero > 0){
+		cifras[i] = numero % 10;
+		if(cifras[i] >= 2){
+			cout<<"\nEl número que se ingresó no es válido\n";
+			verif = 0;
+			break;
+		}
+		numero /= 10;
 		i++; 
 	}
-	for(int j = 0; j < i; j++){
-		suma += pow(2, j) * cifras[j];
+	if(verif == 1){
+		for(int j = 0; j < i; j++){
+			suma += pow(2, j) * cifras[j];
+		}
+		if(base == 8){
+			cout<<"El número "<<numO<<" en octal es: \n";
+			funcionConvertir(8, suma);
+		}else if(base == 16){
+			cout<<"El número "<<numO<<" en hexadecimal es: \n";
+			funcionConvertir(16, suma);
+		}else if(base == 2){
+			cout<<"El número "<<numO<<" en decimal es: "<<suma;	
+		}	
 	}
-	cout<<"El número "<<numO<<" en decimal es: "<<suma;
 }
-int Conversiones::binarioDecimal(){
+
+Conversiones::binarioDecimal(){
 	//proceso para convertir binario a decimal
-	separarDigitos(numero);
+	cifras(numero, 2);
 }
 
-int Conversiones::binarioOctal(){
+Conversiones::binarioOctal(){
 	//proceso para convertir binario a octal
-	cout<<"binario a octal "<<numero;
+	cifras(numero, 8);
 }
 
-int Conversiones::binarioHexadecimal(){
+Conversiones::binarioHexadecimal(){
 	//proceso para convertir binario a hexadecimal
-	cout<<"binario a hexadecimal "<<numero;
+	cifras(numero, 16);
 }
 
 //Clase de combinatoria
@@ -150,17 +158,23 @@ class Combinatoria{
 		int n, r;
 	public:
 		Combinatoria(int, int);//Se inicializa el constructor
-		long permutacionOrdinaria();				//
-		long permutacionDosAspectos();			//
-		int palomar();							//Métodos de la clase combinatoria
-		long combinacion();						//
+		permutacionOrdinaria();				//
+		permutacionDosAspectos();			//
+		palomar();							//Métodos de la clase combinatoria
+		combinacion();						//
 };
 
 Combinatoria::Combinatoria(int _n, int _r){//Constructor
 	n = _n;
 	r = _r;
 }
-
+//función para obtener el factorial
+unsigned long factorial(int n){
+	if(n < 1){
+		return 1;
+	}
+	return n * factorial(n - 1);
+}
 //FUNCION PALOMAR
 void funcionPalomar(int numero, int numero1){
 
@@ -175,24 +189,6 @@ void funcionPalomar(int numero, int numero1){
         cout << "\n\n\tEl principio del palomar no se cumple, hay menos palomas que palomares\n"; 
     }
 }
-
-
-
-
-
-//Métodos de la clase combinatoria
-
-// Función para calcular el factorial de un número
-
-unsigned long long factorial(int num) {
-    if (num == 0 || num == 1) {
-        return 1;
-    } else {
-        return num * factorial(num - 1);
-    }
-}
-
-
 // Función para calcular el número de combinaciones C(n, r)
 unsigned long long calcularCombinaciones(int numero, int numero1) {
     if (numero1 < 0 || numero1 > numero) {
@@ -201,7 +197,6 @@ unsigned long long calcularCombinaciones(int numero, int numero1) {
     	return factorial(numero) / (factorial(numero1) * factorial(numero - numero1));
     }
 }
-
 //PERMUTACION ORDINARIA
 
 //FUNCION IMORIMIR NUMEROS ASI 5x4x3x2x1
@@ -230,12 +225,14 @@ unsigned long long calcularPermutaciones(int numero, int numero1) {
     }
 }
 
-long Combinatoria::permutacionOrdinaria(){
+//Métodos de la clase combinatoria
+
+Combinatoria::permutacionOrdinaria(){
 	//proceso para obtener la permutación ordinaria 
 	imprimirFactorialConMultiplicacion(n);
 }
 
-long Combinatoria::permutacionDosAspectos(){
+Combinatoria::permutacionDosAspectos(){
 	//proceso para obtener la permutación con dos aspectos
 	if(calcularPermutaciones(n, r) == 0){
 		cout << "\n\n\tERROR, VALORES NO VÁLIDOS n debe ser mayor a r. Vuelve a intentarlo";
@@ -245,21 +242,16 @@ long Combinatoria::permutacionDosAspectos(){
 	}
 }
 
-int Combinatoria::palomar(){
+Combinatoria::palomar(){
 	//proceso para el pricipio del palomar
 	funcionPalomar(n, r);
 }
 
-long Combinatoria::combinacion(){
+Combinatoria::combinacion(){
 	//proceso para obtener la combinación
-	
-	if(calcularCombinaciones(n, r) == 0){
-		cout << "\n\n\tERROR, VALORES NO VÁLIDOS n debe ser mayor a r. Vuelve a intentarlo";
-	}else{
-		cout<<"\n\n\t"<<n<<"C"<<r<<" = "<<n<<"!/("<<r<<"!("<<n<<" - "<<r<<")!)\n";
-		cout << "\n\n\tLas combinaciones posible son de: "<< calcularCombinaciones(n, r);
-	}
-	
+	unsigned long combinacion = factorial(n) / (factorial(r) * factorial(n - r));
+	cout<<n<<"C"<<r<<" = "<<n<<"!/("<<r<<"!("<<n<<" - "<<r<<")!)\n";
+	cout<<n<<"C"<<r<<" = "<<combinacion;
 }
 
 //Clase para hacer el triángulo de Pascal
@@ -269,12 +261,12 @@ class TrianguloPascal{
 		int cant;
 	public:
 		TrianguloPascal(int);
-		void hacerTriangulo();
+		hacerTriangulo();
 };
 TrianguloPascal::TrianguloPascal(int _cant){
 	cant = _cant;
 }
-void TrianguloPascal::hacerTriangulo(){
+TrianguloPascal::hacerTriangulo(){
 	unsigned long c;
 	for(int i = 0; i <= cant; i++){
 		for(int j = cant - i; j >= 0; j--){
@@ -291,7 +283,7 @@ void TrianguloPascal::hacerTriangulo(){
 //Funciones para imprimir los menús
 
 //Pantalla de inicio
-int menu1(){
+menu1(){
 	cout<<"\n\t\t| __ )  |_ _| | ____| | \\ | | \\ \\   / / | ____| | \\ | | |_ _| |  _ \\   / _ \\ \n";
  	cout<<"\t\t|  _ \\   | |  |  _|   |  \\| |  \\ \\ / /  |  _|   |  \\| |  | |  | | | | | | | |\n";
  	cout<<"\t\t| |_) |  | |  | |___  | |\\  |   \\ V /   | |___  | |\\  |  | |  | |_| | | |_| |\n";
@@ -304,7 +296,7 @@ int menu1(){
 }
 
 //Menú de conversiones
-int conversionesMenu(){
+conversionesMenu(){
     cout<<"\n\t\t _____                                               _\n";                              
     cout<<"\t\t/ ____|                                             (_)\n";                             
     cout<<"\t\t| |        ___    _ __   __   __   ___   _ __   ___   _    ___    _ __     ___   ___ \n";
@@ -324,7 +316,7 @@ int conversionesMenu(){
 }
 
 //Menú de combinatoria
-int combinatoriaMenu(){
+combinatoriaMenu(){
 	cout<<"\n\t\t  _____                       _       _                   _                    _\n";        
   	cout<<"\t\t / ____|                     | |     (_)                 | |                  (_)\n";        
  	cout<<"\t\t| |        ___    _ __ ___   | |__    _   _ __     __ _  | |_    ___    _ __   _    __ _\n"; 
@@ -341,7 +333,7 @@ int combinatoriaMenu(){
 }
 
 //Titulos para las opciones
-int titulos(int figura){
+titulos(int figura){
 	switch(figura){
 		case 1:
 			cout<<"\n\t\t ___               _                  _\n";                                         
@@ -437,7 +429,7 @@ int titulos(int figura){
 //Funciones para seleccionar opciones
 
 //seleccionar opciones de conversiones
-int opcionesConversion(int op){
+opcionesConversion(int op){
 	int numero;
 	switch(op){
 		case 1:{
@@ -528,16 +520,16 @@ int opcionesConversion(int op){
 	}
 }
 //seleccionar opciones de combinatoria
-int opcionesCombinatoria(int op){
+opcionesCombinatoria(int op){
 	int numero, numero1;
 	switch(op){
 		case 1:{
 			system("cls");
 			titulos(8);
-			cout<<"\n\n\tIngresa un numero (n).";
+			cout<<"Ingresa un numero ";
 			cin>>numero;
-			//cout<<"\n\n\tIngresa otro numero (r).";
-			//cin>>numero1;
+			cout<<"Ingresa otro numero";
+			cin>>numero1;
 			Combinatoria opcion(numero, numero1);			
 			opcion.permutacionOrdinaria();
 			cout<<endl;
@@ -547,9 +539,9 @@ int opcionesCombinatoria(int op){
 		case 2:{
 			system("cls");
 			titulos(9);
-			cout<<"\n\n\tIngresa otro numero (n).";
+			cout<<"Ingresa un numero ";
 			cin>>numero;
-			cout<<"\n\n\tIngresa otro numero (r).";
+			cout<<"Ingresa otro numero";
 			cin>>numero1;
 			Combinatoria opcion(numero, numero1);			
 			opcion.permutacionDosAspectos();
@@ -560,9 +552,9 @@ int opcionesCombinatoria(int op){
 		case 3:{
 			system("cls");
 			titulos(10);
-			cout<<"\n\n\tIngresa el numero de elementos (palomas).";
+			cout<<"Ingresa un numero ";
 			cin>>numero;
-			cout<<"\n\n\tIngresa otro numero que es el numero de palomares.";
+			cout<<"Ingresa otro numero";
 			cin>>numero1;
 			Combinatoria opcion(numero, numero1);			
 			opcion.palomar();
@@ -573,9 +565,9 @@ int opcionesCombinatoria(int op){
 		case 4:{
 			system("cls");
 			titulos(11);
-			cout<<"\n\n\tIngresa un numero (n).";
+			cout<<"Ingresa un numero ";
 			cin>>numero;
-			cout<<"\n\n\tIngresa otro numero (r).";
+			cout<<"Ingresa otro numero";
 			cin>>numero1;
 			Combinatoria opcion(numero, numero1);			
 			opcion.combinacion();
